@@ -1,17 +1,54 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
-  "license": "",
-  "engines": {
-    "node": ">=6.13.0"
-  },
+  "name": "opentable-res-service",
+  "version": "1.0.0",
+  "description": "Reservation and Googlemap module",
+  "author": "Jeff Whittington",
+  "license": "ISC",
   "scripts": {
+    "start": "nodemon server/index.js",
+    "dev:react": "webpack -d --watch",
+    "db:setup": "node database/seed.js",
+    "test:faker": "node database/test.js",
+    "test": "jest"
   },
   "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "google-maps-react": "^2.0.2",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.7.13",
+    "react": "^16.12.0",
+    "react-datepicker": "^2.10.1",
+    "react-dom": "^16.12.0",
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
-    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
-  }
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-styled-components": "^1.10.6",
+    "babel-preset-airbnb": "^4.4.0",
+    "css-loader": "^3.2.1",
+    "enzyme": "^3.10.0",
+    "eslint": "^6.7.2",
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "faker": "^4.1.0",
+    "install": "^0.13.0",
+    "jest": "^24.9.0",
+    "react-addons-test-utils": "^15.6.2",
+    "react-test-renderer": "^16.12.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hrr42-fec-team1/opentable-res-service.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hrr42-fec-team1/opentable-res-service/issues"
+  },
+  "homepage": "https://github.com/hrr42-fec-team1/opentable-res-service#readme"
 }

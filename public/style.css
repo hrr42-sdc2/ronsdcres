@@ -1,0 +1,41 @@
+.reservation {
+  margin: auto;
+  width: 320px;
+  padding: 15px;
+  box-shadow: rgba(153, 153, 153, 0.4) 0px 2px 8px 0px;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.find-a-table-button {
+  width: 100%;
+  height: 50px;
+  background-color: rgb(218, 55,67);
+  color: white;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px
+}
+
+.find-a-table-button:focus {
+  outline: none;
+}
+
+input {
+  border: 0px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px;
+}
+
+input:focus {
+  outline: none;
+}
+
+select {
+  border: 0px;
+  background-color: white;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px
+}
+
+select:focus {
+  outline: none;
+}
