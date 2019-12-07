@@ -10,20 +10,17 @@ class App extends React.Component {
     super();
 
     //  restId will come in props from Miao
-    this.restId = 62;
+    this.restId = 15;
   }
 
   render() {
     return (
       <div className="app">
-        <h1>Reservations and Mapping</h1>
         <Reservation restId={this.restId}/>
         <Mapper restId={this.restId}/>
-        {/* <Picker /> */}
-        {/* <input id="datepicker" type="text" /> */}
-        {/* <div id="datepicker"></div> */}
       </div>
     )
   }
 }
+
 export default App;

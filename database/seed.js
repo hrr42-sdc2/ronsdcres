@@ -9,8 +9,8 @@ mongoose.connect('mongodb://localhost/reservations');
 var RESERVATIONS_TO_CREATE = 10;
 
 //  RESERVATIONS
-//  we're going to use random number for restaurant_id so we don't end up with same number of
-//    reservations in each restaurant
+//  we're going to use random number for restaurant_id so we don't end up with same
+//    number of reservations in each restaurant
 var res = [];
 
 for (var i = 0; i < RESERVATIONS_TO_CREATE; i++) {

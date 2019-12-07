@@ -4,8 +4,6 @@ import DatePicker from 'react-datepicker';
 import axios from 'axios';
 import styled from 'styled-components';
 
-//import "react-datepicker/dist/react-datepicker.css";
-
 const StyledReservation = styled.div`
   margin: auto;
   width: 320px;
@@ -33,51 +31,75 @@ const StyledSelect = styled.select`
   font-size: 15px
 `;
 
-// position: absolute;
-//   right: 40px;
-//   top: calc(100% - 40px);
-//   z-index: 2;
-
 class Reservation extends React.Component {
   constructor({restId}) {
     super();
-  this.state = {
-    guests: '',
-    time: '7:00 PM',
-    bookDate: new Date()
-  };
-  //  restaurant number will come in props from Miao
-  //  right now is sent from App
-  this.restId = restId;
-  //  name is the person doing the booking
-  this.name = 'Superman';
 
-  this.handleChangeGuests = this.handleChangeGuests.bind(this);
-  this.handleChangeDate = this.handleChangeDate.bind(this);
-  this.handleChangeTime = this.handleChangeTime.bind(this);
-  this.submitReservation = this.submitReservation.bind(this);
-}
+    // set the nearest booking time to now
+    let d = new Date();
+    let hrs = d.getHours();
+    let mins = d.getMinutes();
+    if (mins > 30) {
+      hrs++;
+      var amins = '00';
+    } else {
+      amins = '30';
+    }
+    let ap = (hrs > 11) ? ' PM' : ' AM';
+    hrs = (hrs > 12) ? hrs - 12 : hrs;
+    let nxTm = hrs + ":" + amins + ap;
+
+    this.state = {
+      findButtonStatus: 'button',
+      findResponse: 'No clue what to say',
+      bookings_today: 94,
+      guests: '',
+      time: nxTm,
+      bookDate: new Date()
+    };
+
+    //  restaurant number will come in props from Miao
+    //  right now is sent from App
+    this.restId = restId;
+    //  name is the person doing the booking
+    this.name = 'Superman';
+
+    this.handleChangeGuests = this.handleChangeGuests.bind(this);
+    this.handleChangeDate = this.handleChangeDate.bind(this);
+    this.handleChangeTime = this.handleChangeTime.bind(this);
+    this.submitReservation = this.submitReservation.bind(this);
+  }
 
   handleChangeGuests(event) {
-    this.setState({guests: event.target.value});
+    this.setState({findButtonStatus: 'button',
+                   guests: event.target.value});
   }
 
   handleChangeDate(date) {
-    this.setState({bookDate: date});
+    this.setState({findButtonStatus: 'button',
+                   bookDate: date});
   }
 
   handleChangeTime(event) {
-    this.setState({time: event.target.value});
+    this.setState({findButtonStatus: 'button',
+                   time: event.target.value});
   }
 
   submitReservation(event) {
     //  reservation data should all be in state
-    //  disallow if #guests not specified (not with an alert)
+    //  disallow if #guests not specified
     if (this.state.guests === "") {
-      alert('number of guests not specified');  // plug into the button
+      let msg = 'Please specify number of guests.'
+      this.setState({findButtonStatus: 'response',
+                     findResponse: msg});
       return;
     }
-    //console.log(this.state);
+    if (this.state.guests > 6) {
+      let msg = 'We\'re sorry, this restaurant does not accept online bookings for parties that large.  Please telephone the restaurant instead.';
+      this.setState({findButtonStatus: 'response',
+                     findResponse: msg});
+      return;
+    }
     var booking ={
       restId: this.restId,
       name: this.name,
@@ -98,9 +120,18 @@ class Reservation extends React.Component {
     //  post to reservation api
     axios.post('/reservation', booking)
     .then((response) => {
-      console.log(response);
+      let msg = response.data;
+      let bk = 0;
+      if (msg.substring(0, 5) !== 'Sorry') {
+        bk = 1;
+      }
+      this.setState({findButtonStatus: 'response',
+                     findResponse: msg,
+                     bookings_today: this.state.bookings_today += bk});
     }, (error) => {
-      console.log(error);
+      let msg = 'An error occurred in processing your reservation.  Please try again later';
+      this.setState({findButtonStatus: 'response',
+                     findResponse: msg});
     });
   }
 
@@ -133,13 +164,26 @@ class Reservation extends React.Component {
   }
 
   render() {
-
     var po = this.createPartyOptions();
     var to = this.createTimeOptions();
     var guestsText = 'Please select number of guests';
     if (this.state.guests !== '') {
       guestsText = 'For ' + this.state.guests;
     }
+    var fbs = this.state.findButtonStatus;
+
+    var FindTableButton = () => (
+      <button className="find-table-button" onClick={this.submitReservation}>
+        Find a Table
+      </button>
+    );
+
+    var ResponseBox = ({response}) => (
+      <div className="response-box">
+        <p>{response}</p>
+      </div>
+    );
+
     return (
       <StyledReservation>
       <div className="reservatin">
@@ -160,14 +204,11 @@ class Reservation extends React.Component {
       <hr />
       <p style={{fontWeight: 'bold'}}>Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time</p>
       <br />
-      {/* <StyledDate> */}
       <DatePicker
         selected={this.state.bookDate}
         onChange={this.handleChangeDate}
         placeholderText="Today"
       />
-      {/* </StyledDate> */}
-
       <select value={this.state.time} onChange={this.handleChangeTime}>
       <option>{this.state.time}</option>
         {
@@ -177,24 +218,20 @@ class Reservation extends React.Component {
         }
       </select>
       <hr />
-      {/* <StyledFindButton> */}
-      <button className="find-a-table-button" onClick={this.submitReservation}>
-        Find a Table
-      </button>
-      {/* </StyledFindButton> */}
+      {fbs === 'button' ? (
+      <FindTableButton />
+      ) : (
+      <ResponseBox response={this.state.findResponse}/>
+      )}
       <br /><br />
       <img src="assets/ic_social_proof.png"></img>
-
-      Booked 94 times today
-
+      <span className="bookings-today">
+      &nbsp;&nbsp;Booked {this.state.bookings_today} times today
+      </span>
     </div>
     </StyledReservation>
     )
   }
-
-
 }
-
-
 
 export default Reservation;

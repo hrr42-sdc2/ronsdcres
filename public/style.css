@@ -6,7 +6,7 @@
   font-family: 'Josefin Sans', sans-serif;
 }
 
-.find-a-table-button {
+.find-table-button {
   width: 100%;
   height: 50px;
   background-color: rgb(218, 55,67);
@@ -15,10 +15,22 @@
   font-size: 18px
 }
 
-.find-a-table-button:focus {
+.find-table-button:focus {
   outline: none;
 }
 
+.response-box {
+  width: 100%;
+  height: 50px;
+  background-color: #f0f0f0;
+  color: darkslategrey;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px
+}
+
+.bookings-today {
+  margin-bottom: 5px;
+}
 input {
   border: 0px;
   font-family: 'Josefin Sans', sans-serif;

@@ -1,5 +1,4 @@
 //  API server
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('../database/connect.js');
@@ -32,12 +31,12 @@ app.post('/reservation', function (req, res) {
   //  post if you can; return success
   //  if post not allowed, return error message
   //  errors can be: username already has a reservation,
-  //                 reservation overlaps too many (too many tables used)
+  //    reservation overlaps too many (too many tables used)
   var booking = req.body;
 
-  Reservation.getByDate(booking.restId, booking.time)
-  .then((confirmation) => {
-    res.write(JSON.stringify(confirmation));
+  Reservation.make(booking)
+  .then((notification) => {
+    res.write(JSON.stringify(notification));
     res.end();
   })
   .catch((err) => {

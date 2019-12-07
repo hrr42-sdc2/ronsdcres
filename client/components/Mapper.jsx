@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { GoogleApiWrapper, Map as GoogleMap, Marker } from 'google-maps-react';
+import GOOGLEMAPS_API_KEY from '../config/googlemaps.js';
 import styled from 'styled-components';
 
 const StyledMap = styled.div`
@@ -43,9 +44,7 @@ class Map extends Component {
 	}
 
 	render() {
-
 		//  prevent call to gmaps before we have gotten our coordinates
-		console.log(this.state.coords);
 		if (!this.state.coords.gotData) {
 		 	return <div />
 	  }
@@ -55,8 +54,6 @@ class Map extends Component {
 			height: '220px',
 			margin: 'auto'
 		};
-
-
 
 		return (
 			<div>
@@ -72,7 +69,7 @@ class Map extends Component {
 }
 
 const MapWrapper = GoogleApiWrapper({
-	apiKey: "AIzaSyBEaETMv8wtMKEWwSg5WXV62JrSygfssgU"
+	apiKey: GOOGLEMAPS_API_KEY
 })(Map);
 
 class Mapper extends Component{
@@ -80,4 +77,5 @@ class Mapper extends Component{
 		return (<MapWrapper/>)
 	}
 }
+
 export default Mapper;
