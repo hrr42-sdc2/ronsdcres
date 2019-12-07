@@ -10,21 +10,13 @@ let mapperSchema = mongoose.Schema({
 let Mapper = mongoose.model('Mapper', mapperSchema);
 
 var getAll = () => {
-  return new Promise((resolve, reject) => {
-    Mapper.find()
-      .exec((err, maps) => {
-        resolve(maps);
-      });
-  });
+  let query = Mapper.find({ });
+  return query.exec();
 };
 
 var getOne = (restaurantId) => {
-  return new Promise((resolve, reject) => {
-    Mapper.find({ restaurant_id: restaurantId })
-      .exec((err, map) => {
-        resolve(map);
-      });
-  });
+  let query = Mapper.find({ restaurant_id: restaurantId });
+  return query.exec();
 };
 
 module.exports = Mapper;

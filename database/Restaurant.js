@@ -13,24 +13,17 @@ let restaurantSchema = mongoose.Schema({
 let Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
 var getAll = () => {
-  return new Promise((resolve, reject) => {
-    Restaurant.find()
-      .exec((err, restaurants) => {
-        resolve(restaurants);
-      });
-  });
+  let query = Restaurant.find({ });
+  return query.exec();
 };
 
 var getOne = (restaurantId) => {
-  return new Promise((resolve, reject) => {
-    Restaurant.find({ restaurant_id: restaurantId })
-      .exec((err, restaurant) => {
-        resolve(restaurant);
-      });
-  });
+  let query = Restaurant.find({ restaurant_id: restaurantId });
+  return query.exec();
 };
 
 var incrementReservations = (restaurantId) => {
+  //  this is unfinished
   return new Promise((resolve, reject) => {
     Restaurant.find({ restaurant_id: restaurantId })
       .exec((err, map) => {

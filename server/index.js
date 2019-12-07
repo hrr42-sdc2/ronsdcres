@@ -22,6 +22,7 @@ app.get('/reservation/all', function (req, res) {
   })
   .catch((err) => {
     console.log('Error: ', err);
+    res.status(500).send(new Error(err));
     res.end();
   });
 });
@@ -40,7 +41,8 @@ app.post('/reservation', function (req, res) {
     res.end();
   })
   .catch((err) => {
-    console.log('Error:', err);
+    console.log('Error occurred: ', err);
+    res.status(500).send(new Error(err));
     res.end();
   });
 });
@@ -53,7 +55,8 @@ app.get('/mapper/all', function (req, res) {
       res.end();
     })
     .catch((err) => {
-      console.log('Error:', err);
+      console.log('Error occurred: ', err);
+      res.status(500).send(new Error(err));
       res.end();
     });
 });
@@ -67,7 +70,8 @@ app.get('/mapper/:restaurantId', function (req, res) {
       res.end();
     })
     .catch((err) => {
-      console.log('Error: ', err);
+      console.log('Error occurred: ', err);
+      res.status(500).send(new Error(err));
       res.end();
     });
 });
@@ -80,7 +84,8 @@ app.get('/restaurant/all', function (req, res) {
       res.end();
     })
     .catch((err) => {
-      console.log('Error:', err);
+      console.log('Error occurred:', err);
+      res.status(500).send(new Error(err));
       res.end();
     });
 });
@@ -95,7 +100,8 @@ app.get('/restaurant/:restaurantId', function (req, res) {
       res.end();
     })
     .catch((err) => {
-      console.log('Error: ', err);
+      console.log('Error occurred: ', err);
+      res.status(500).send(new Error(err));
       res.end();
     });
 });

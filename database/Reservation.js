@@ -13,15 +13,12 @@ let reservationSchema = mongoose.Schema({
 let Reservation = mongoose.model('Reservation', reservationSchema);
 
 var getAll = () => {
-  return new Promise((resolve, reject) => {
-    Reservation.find()
-      .exec((err, reservations) => {
-        resolve(reservations);
-      });
-  });
+  let query = Reservation.find({ });
+  return query.exec();
 };
 
 var getByDate = (restId, date) => {
+  //  refactor when have time
   return new Promise((resolve, reject) => {
     //  create search-between dates for the date sought
     var workDate = new Date(date);
@@ -38,6 +35,7 @@ var getByDate = (restId, date) => {
 
 // function to make a reservation.  or not.
 var make = (booking) => {
+  //  refactor when have time
   return new Promise((resolve, reject) => {
     getByDate(booking.restId, booking.time)
     .then((reservations) => {
