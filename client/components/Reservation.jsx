@@ -173,7 +173,7 @@ class Reservation extends React.Component {
     var fbs = this.state.findButtonStatus;
 
     var FindTableButton = () => (
-      <button className="find-table-button" onClick={this.submitReservation}>
+      <button id="find-table-button" className="find-table-button" onClick={this.submitReservation}>
         Find a Table
       </button>
     );
