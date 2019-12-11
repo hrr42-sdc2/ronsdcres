@@ -50,9 +50,13 @@ class Map extends Component {
 	  }
 
 		const mapStyle = {
+			marginTop: '20px',
+			marginLeft: 'auto',
+			marginRight: 'auto',
+			left: '-15px',
 			width: '320px',
 			height: '220px',
-			margin: 'auto'
+			border: '2px solid lightgrey'
 		};
 
 		return (

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 const StyledReservation = styled.div`
   margin: auto;
-  width: 320px;
+  width: 300px;
   padding: 15px;
   box-shadow: rgba(153, 153, 153, 0.4) 0px 2px 8px 0px;
   font-family: 'Josefin Sans', sans-serif;
