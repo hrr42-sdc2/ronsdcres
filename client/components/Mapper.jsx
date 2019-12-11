@@ -19,7 +19,7 @@ class Map extends Component {
 		//  along with street address
 		console.log(props);  // Google maps does something to props so I'm not getting restaurant id
 
-		this.restId = 52;
+		this.restId = 92;
 		this.restAddress = '1313 Mockingbird Lane';
 		var initialCoords = {
 			latitude: 47.444,

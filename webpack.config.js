@@ -8,11 +8,11 @@ module.exports = {
     path: path.resolve(__dirname, 'public/dist'),
     filename: 'bundle.js'
   },
-  optimization: {
-    splitChunks: {
-    chunks: 'all',
-    },
-  },
+  // optimization: {
+  //   splitChunks: {
+  //   chunks: 'all',
+  //   },
+  // },
   module: {
     rules: [
       {
@@ -21,7 +21,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-          presets: ['@babel/preset-env', '@babel/preset-react']
+            presets: ['@babel/preset-env', '@babel/preset-react']
           }
         }
       }

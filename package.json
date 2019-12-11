@@ -6,7 +6,7 @@
   "license": "ISC",
   "scripts": {
     "start": "nodemon server/index.js",
-    "dev:react": "webpack -d --watch",
+    "build": "webpack -d --watch",
     "db:setup": "node database/seed.js",
     "test:faker": "node database/test.js",
     "test": "jest"
