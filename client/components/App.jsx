@@ -26,8 +26,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <Reservation restId={this.restId}/>
-        <Mapper restId={this.restId}/>
+        <Reservation />
+        <Mapper />
       </div>
     )
   }

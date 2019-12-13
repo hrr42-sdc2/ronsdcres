@@ -1,4 +1,4 @@
-.reservation {
+.reservatin {
   margin: auto;
   width: 320px;
   padding: 15px;
@@ -31,23 +31,23 @@
 .bookings-today {
   margin-bottom: 5px;
 }
-input {
+#reservation input {
   border: 0px;
   font-family: 'Josefin Sans', sans-serif;
   font-size: 15px;
 }
 
-input:focus {
+#reservation input:focus {
   outline: none;
 }
 
-select {
+#reservation select {
   border: 0px;
   background-color: white;
   font-family: 'Josefin Sans', sans-serif;
   font-size: 15px
 }
 
-select:focus {
+#reservation select:focus {
   outline: none;
 }

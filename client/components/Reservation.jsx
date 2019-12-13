@@ -31,8 +31,11 @@ const StyledSelect = styled.select`
   font-size: 15px
 `;
 
+let params = (new URL(document.location)).searchParams;
+let restId = parseInt(params.get('restaurantid')) || 92;
+
 class Reservation extends React.Component {
-  constructor({restId}) {
+  constructor({}) {
     super();
 
     // set the nearest booking time to now
@@ -52,7 +55,7 @@ class Reservation extends React.Component {
     this.state = {
       findButtonStatus: 'button',
       findResponse: 'No clue what to say',
-      bookings_today: 94,
+      bookings_today: this.getRandomInteger(1, 200),
       guests: '',
       time: nxTm,
       bookDate: new Date()
@@ -163,6 +166,10 @@ class Reservation extends React.Component {
     return timeOptions;
   }
 
+  getRandomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+  }
+
   render() {
     var po = this.createPartyOptions();
     var to = this.createTimeOptions();
@@ -186,7 +193,7 @@ class Reservation extends React.Component {
 
     return (
       <StyledReservation>
-      <div className="reservatin">
+      <div id="reservation">
       <h2 style={{textAlign: 'center'}}>Make a reservation</h2>
       <hr />
       <p style={{fontWeight: 'bold'}}>Party size</p>
