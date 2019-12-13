@@ -20,8 +20,6 @@ class Map extends Component {
 		super(props);
 		//  restaurant number will be passed into props from overview
 		//  along with street address
-		console.log(props);  // Google maps does something to props so I'm not getting restaurant id
-
 		this.restId = restId || 92;
 		this.restAddress = '1313 Mockingbird Lane';
 		var initialCoords = {
@@ -56,6 +54,7 @@ class Map extends Component {
 
 		const mapStyle = {
 			marginTop: '20px',
+			marginBottom: '20px',
 			marginLeft: 'auto',
 			marginRight: 'auto',
 			left: '-15px',
@@ -72,8 +71,7 @@ class Map extends Component {
 					initialCenter={{ lat: this.state.coords.latitude, lng: this.state.coords.longitude}} >
 					<Marker position={{ lat: this.state.coords.latitude, lng: this.state.coords.longitude}} />
 				</GoogleMap>
-				{/* {this.restAddress} */}
-			</div>
+				</div>
 		);
 	}
 }
@@ -84,7 +82,11 @@ const MapWrapper = GoogleApiWrapper({
 
 class Mapper extends Component{
 	render(){
-		return (<MapWrapper/>)
+		return (
+		<div>
+			<MapWrapper/>
+		</div>
+		)
 	}
 }
 

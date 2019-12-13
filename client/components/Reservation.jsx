@@ -231,7 +231,7 @@ class Reservation extends React.Component {
       <ResponseBox response={this.state.findResponse}/>
       )}
       <br /><br />
-      <img src="assets/ic_social_proof.png"></img>
+      <img style={{marginBottom: '-4'}} src="assets/ic_social_proof.png"></img>
       <span className="bookings-today">
       &nbsp;&nbsp;Booked {this.state.bookings_today} times today
       </span>

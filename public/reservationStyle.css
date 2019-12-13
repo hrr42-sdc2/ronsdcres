@@ -60,3 +60,29 @@
 #reservation select:focus {
   outline: none;
 }
+
+#aftermapper {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 500px;
+  width: 320px;
+  padding: 15px;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.below-mapper {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 224px;
+  width: 320px;
+  padding: 15px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  color: rgb(218, 55,67);
+}
+
+.streetBox {
+  width: 318px;
+  height: 45px;
+  border: solid 2px lightGrey;
+}
