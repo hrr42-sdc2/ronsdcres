@@ -67,7 +67,6 @@ Restaurant.deleteMany({}, ()=>{});
 //  plug in the array
 Restaurant.create(restaurant, ()=>{});
 
-.then(mongoose.disconnect());
 //mongoose.disconnect();
 // let query = Mapper.find({ });
 // console.log(query.exec());
