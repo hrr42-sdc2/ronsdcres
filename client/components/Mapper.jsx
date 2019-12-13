@@ -25,8 +25,8 @@ class Map extends Component {
 		this.restId = restId || 92;
 		this.restAddress = '1313 Mockingbird Lane';
 		var initialCoords = {
-			latitude: 47.444,
-			longitude: -122.176
+			latitude: 37.739,
+			longitude: -122.431
 		};
 		this.state = {
       coords: initialCoords
@@ -38,9 +38,11 @@ class Map extends Component {
 	getCoordinates(restId) {
 		axios.get(`http://localhost:3002/mapper/${restId}`)
 		.then(res => {
-			var coords = {};
-			coords.latitude = res.data[0].latitude;
-			coords.longitude = res.data[0].longitude;
+			var coords = this.state.coords;
+			if (res.data[0] !== undefined && res.data[0] !== {}) {
+				coords.latitude = res.data[0].latitude;
+				coords.longitude = res.data[0].longitude;
+			}
 			coords.gotData = true;
 			this.setState({coords});
 		})
@@ -63,13 +65,14 @@ class Map extends Component {
 		};
 
 		return (
-			<div>
+			<div id="mapper-container">
 				<GoogleMap
 					google={this.props.google}
 					style = {mapStyle}
 					initialCenter={{ lat: this.state.coords.latitude, lng: this.state.coords.longitude}} >
 					<Marker position={{ lat: this.state.coords.latitude, lng: this.state.coords.longitude}} />
 				</GoogleMap>
+				{/* {this.restAddress} */}
 			</div>
 		);
 	}

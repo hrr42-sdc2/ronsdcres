@@ -39,7 +39,7 @@ var maps = [];
 //  within SF or nearby ocean
 for (var i = 0; i < 100; i++) {
   var lat = getRandomInteger(37749, 37804);
-  var long = getRandomInteger(122399, 122519) * -1;  //  west longitude
+  var long = getRandomInteger(122399, 12247) * -1;  //  west longitude
   maps[i] = {};
   maps[i].restaurant_id = i + 1;
   maps[i].latitude = lat * .001;
