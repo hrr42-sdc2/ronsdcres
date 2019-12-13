@@ -26,3 +26,5 @@ dist/
 public/dist/
 
 client/config
+
+fec.pem
