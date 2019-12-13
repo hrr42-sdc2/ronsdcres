@@ -31,10 +31,15 @@
 .bookings-today {
   margin-bottom: 5px;
 }
+
 #reservation input {
   border: 0px;
   font-family: 'Josefin Sans', sans-serif;
   font-size: 15px;
+}
+
+#reservatin input:hover {
+  border-bottom: 2px solid rgb(218, 55,67);
 }
 
 #reservation input:focus {
@@ -46,6 +51,10 @@
   background-color: white;
   font-family: 'Josefin Sans', sans-serif;
   font-size: 15px
+}
+
+#reservation select:hover {
+  border-bottom: 2px solid rgb(218, 55,67)!;
 }
 
 #reservation select:focus {
