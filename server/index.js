@@ -11,7 +11,9 @@ let app = express();
 app.use(express.static(__dirname + '/../public'));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -20,16 +22,16 @@ app.use((req, res, next) => {
 
 //  get all reservations (for testing)
 app.get('/reservation/all', function (req, res) {
-  Reservation.getAll()
-  .then((reservations) => {
-    res.write(JSON.stringify(reservations));
-    res.end();
-  })
-  .catch((err) => {
-    console.log('Error: ', err);
-    res.status(500).send(new Error(err));
-    res.end();
-  });
+  Reservation.read()
+    .then((reservations) => {
+      res.write(JSON.stringify(reservations));
+      res.end();
+    })
+    .catch((err) => {
+      console.log('Error: ', err);
+      res.status(500).send(new Error(err));
+      res.end();
+    });
 });
 
 //  check if reservation can be accepted and add to the database if so
@@ -41,15 +43,37 @@ app.post('/reservation', function (req, res) {
   var booking = req.body;
 
   Reservation.make(booking)
-  .then((notification) => {
-    res.write(JSON.stringify(notification));
-    res.end();
-  })
-  .catch((err) => {
-    console.log('Error occurred: ', err);
-    res.status(500).send(new Error(err));
-    res.end();
-  });
+    .then((notification) => {
+      res.write(JSON.stringify(notification));
+      res.end();
+    })
+    .catch((err) => {
+      console.log('Error occurred: ', err);
+      res.status(500).send(new Error(err));
+      res.end();
+    });
+});
+
+//update data here:
+//PUT is update, so since the mongo _id field is included in the object, you should be able to use
+//something like updateById.  Not sure what the exact name is, I don't have it in front of me right now.
+// Nor do I think it will make that much difference in the result they are looking for.   Just try and
+//make it update the record with the _id in the incoming object.
+app.put('/reservation/:reservation_time', function (req, res) {
+  const booking = req.body;
+  const time = req.params.restaurant_time;
+
+  reservation.update(time, booking)
+    .then((notification) => {
+      console.log('Reservation Updated: ', res)
+      res.write(JSON.stringify(notification));
+      res.end();
+    })
+    .catch((err) => {
+      console.log('Error occured: ', err);
+      res.status(500).send(new Error(err));
+      res.end();
+    });
 });
 
 //  get all maps (for testing)
@@ -113,6 +137,6 @@ app.get('/restaurant/:restaurantId', function (req, res) {
 
 let port = 3002;
 
-app.listen(port, function() {
+app.listen(port, function () {
   console.log(`listening on port ${port}`);
 });
