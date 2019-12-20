@@ -55,25 +55,17 @@ app.post('/reservation', function (req, res) {
 });
 
 //update data here:
-//PUT is update, so since the mongo _id field is included in the object, you should be able to use
-//something like updateById.  Not sure what the exact name is, I don't have it in front of me right now.
-// Nor do I think it will make that much difference in the result they are looking for.   Just try and
-//make it update the record with the _id in the incoming object.
-app.put('/reservation/:reservation_time', function (req, res) {
+//PUT is update: mongo _id field is included in the object res, use
+//Maybe use:
+//https://docs.mongodb.com/manual/reference/method/db.collection.replaceOne/
+//or https://docs.mongodb.com/manual/reference/method/db.collection.update/
+//db.collection.replaceOne(), or db.collection.update()
+app.put('/reservation', function (req, res) {
   const booking = req.body;
-  const time = req.params.restaurant_time;
-
-  reservation.update(time, booking)
-    .then((notification) => {
-      console.log('Reservation Updated: ', res)
-      res.write(JSON.stringify(notification));
-      res.end();
-    })
-    .catch((err) => {
-      console.log('Error occured: ', err);
-      res.status(500).send(new Error(err));
-      res.end();
-    });
+  //const time = req.params.restaurant_time;
+  // res.send(booking)
+  Reservation.updateReservation(booking);
+  res.send("Updated!");
 });
 
 //  get all maps (for testing)
@@ -91,6 +83,7 @@ app.get('/mapper/all', function (req, res) {
 });
 
 //  get restaurant geolocator for call to google maps api
+//jeff sugests I work on this one.
 app.get('/mapper/:restaurantId', function (req, res) {
   var restaurantId = req.params.restaurantId;
   Mapper.getOne(restaurantId)
