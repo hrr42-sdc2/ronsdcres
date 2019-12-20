@@ -54,7 +54,7 @@ app.post('/reservation', function (req, res) {
     });
 });
 
-//update data here:
+//!! RON'S ADDITION FOR THE PUT REQUEST TO UPDATE THE RESERVATION
 //PUT is update: mongo _id field is included in the object res, use
 //Maybe use:
 //https://docs.mongodb.com/manual/reference/method/db.collection.replaceOne/
@@ -67,6 +67,8 @@ app.put('/reservation', function (req, res) {
   Reservation.updateReservation(booking);
   res.send("Updated!");
 });
+
+//!! END OF PUT REQUEST ADDED BY RON
 
 //  get all maps (for testing)
 app.get('/mapper/all', function (req, res) {

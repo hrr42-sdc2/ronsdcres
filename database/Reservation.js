@@ -26,6 +26,9 @@ var read = () => {
   return query.exec();
 };
 
+//!! RON MADE THIS CHANGE -
+//for loop that generates the RESERVATION ID
+
 var createReservationId = () => {
   const reservationId = [];
   for (let i = 1; i <= 10000000; i++) {
@@ -37,6 +40,7 @@ var createReservationId = () => {
 };
 
 // createReservationId();
+//!! END OF THE CHANGE ADDED TO GENERATE RESERVATION ID
 
 var getByDate = (restId, date) => {
   //  refactor when have time
@@ -122,6 +126,8 @@ addReservation = (booking) => {
   });
 };
 
+//!! RON'S ADDITION FOR THE PUT REQUEST TO UPDATE THE RESERVATION
+
 updateReservation = (err, booking) => {
   console.log('reservation.update:', booking);
   if (err) throw err;
@@ -145,6 +151,8 @@ updateReservation = (err, booking) => {
     db.close();
   });
 };
+
+//!! END OF THE CHANGE FOR THE PUT REQUEST
 
 module.exports = Reservation;
 module.exports.read = read;
