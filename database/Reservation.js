@@ -2,7 +2,7 @@ const mongoose = require('./connect.js');
 mongoose.Promise = global.Promise;
 
 let reservationSchema = mongoose.Schema({
-  reservation_id: Number,
+  //reservation_id: Number,
   restaurant_id: Number,
   customer_name: String,
   reservation_time: Date,
@@ -51,8 +51,8 @@ var getByDate = (restId, date) => {
     var thruDate = new Date(fromDate);
     thruDate.setDate(thruDate.getDate() + 1);
     Reservation.find({
-      restaurant_id: restId
-    })
+        restaurant_id: restId
+      })
       .where('reservation_time').gte(fromDate).lt(thruDate)
       .exec((err, reservations) => {
         resolve(reservations);
@@ -61,6 +61,7 @@ var getByDate = (restId, date) => {
 };
 
 // function to make a reservation.  or not.
+//booking.reservation_id
 var make = (booking) => {
   //  refactor when have time
   return new Promise((resolve, reject) => {
@@ -127,29 +128,22 @@ addReservation = (booking) => {
 };
 
 //!! RON'S ADDITION FOR THE PUT REQUEST TO UPDATE THE RESERVATION
-
-updateReservation = (err, booking) => {
-  console.log('reservation.update:', booking);
-  if (err) throw err;
-  var data = db.reservations("customer_name")
-  var reservationQuery = {
-    customer_name: 'Heath Spinka'
-  };
-  var newReservation = {
-    $set: {
-      customer_name: 'Professor Jenkin',
-      reservation_time: '8:00',
-      guests: '6'
+//format is: findByIdAndUpdate(id, {update}, callback)
+updateReservation = (booking, callback) => {
+  //console.log("this is the booking:", booking);
+  console.log(booking._id);
+  let query = Reservation.findByIdAndUpdate(
+    booking._id,
+    { guests: booking.guests },
+    function(err, result) {
+      if (err) {
+        return err;
+      } else {
+        return result;
+      }
     }
-  };
-  // save model to database
-  // !!TODO: this needs fixing
-  reservation.updateOne(reservationQuery, newReservation, function (err, res) {
-    if (err) throw err;
-    console.log('1 document updated');
-    console.log(res.result.nModified);
-    db.close();
-  });
+  );
+  return query.exec();
 };
 
 //!! END OF THE CHANGE FOR THE PUT REQUEST

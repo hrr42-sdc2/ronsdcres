@@ -62,10 +62,21 @@ app.post('/reservation', function (req, res) {
 //db.collection.replaceOne(), or db.collection.update()
 app.put('/reservation', function (req, res) {
   const booking = req.body;
+  console.log(booking);
   //const time = req.params.restaurant_time;
   // res.send(booking)
-  Reservation.updateReservation(booking);
-  res.send("Updated!");
+  Reservation.updateReservation(booking)
+    .then((notification) => {
+      // console.log(notification);
+      res.write(JSON.stringify(notification));
+      res.end();
+    })
+    .catch((err) => {
+      console.log('Error occurred: ', err);
+      res.status(500).send(new Error(err));
+      res.end();
+    });
+  // res.send("Updated!");
 });
 
 //!! END OF PUT REQUEST ADDED BY RON
@@ -135,3 +146,11 @@ let port = 3002;
 app.listen(port, function () {
   console.log(`listening on port ${port}`);
 });
+
+// updateReservation = (booking) => {
+//   let query = Reservation.findByIdAndUpdate(
+//     booking._id,
+//     booking
+//   );
+//   return query.exec();
+// };
