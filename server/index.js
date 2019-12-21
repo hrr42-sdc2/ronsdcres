@@ -68,6 +68,7 @@ app.put('/reservation', function (req, res) {
   Reservation.updateReservation(booking)
     .then((notification) => {
       // console.log(notification);
+      // console.log(booking);
       res.write(JSON.stringify(notification));
       res.end();
     })
@@ -80,6 +81,29 @@ app.put('/reservation', function (req, res) {
 });
 
 //!! END OF PUT REQUEST ADDED BY RON
+
+//!! RON'S ADDITION FOR THE DELETE REQUEST TO UPDATE THE RESERVATION
+app.delete('/reservation', function (req, res) {
+  const booking = req.body;
+  console.log(booking);
+  //const time = req.params.restaurant_time;
+  // res.send(booking)
+  Reservation.updateReservation(booking)
+    .then((notification) => {
+      // console.log(notification);
+      // console.log(booking);
+      res.write(JSON.stringify(notification));
+      res.end();
+    })
+    .catch((err) => {
+      console.log('Error occurred: ', err);
+      res.status(500).send(new Error(err));
+      res.end();
+    });
+  // res.send("Updated!");
+});
+
+//!! END OF DELETE REQUEST ADDED BY RON
 
 //  get all maps (for testing)
 app.get('/mapper/all', function (req, res) {

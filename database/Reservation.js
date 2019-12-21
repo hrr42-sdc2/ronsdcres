@@ -148,6 +148,26 @@ updateReservation = (booking, callback) => {
 
 //!! END OF THE CHANGE FOR THE PUT REQUEST
 
+//!! RON'S ADDITION FOR THE DELETE REQUEST TO UPDATE THE RESERVATION
+//format is: findByIdAndUpdate(id, {update}, callback)
+deleteReservation = (booking, callback) => {
+  //console.log("this is the booking:", booking);
+  console.log(booking._id);
+  let query = Reservation.findByIdAndDelete(
+    booking._id,
+    function(err, result) {
+      if (err) {
+        return err;
+      } else {
+        return result;
+      }
+    }
+  );
+  return query.exec();
+};
+
+//!! END OF THE CHANGE FOR THE DELETE REQUEST
+
 module.exports = Reservation;
 module.exports.read = read;
 module.exports.getByDate = getByDate;
