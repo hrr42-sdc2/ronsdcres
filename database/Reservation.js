@@ -150,7 +150,7 @@ updateReservation = (booking, callback) => {
 
 //!! RON'S ADDITION FOR THE DELETE REQUEST TO UPDATE THE RESERVATION
 //format is: findByIdAndUpdate(id, {update}, callback)
-deleteReservation = (booking, callback) => {
+deleteReservation = (booking) => {
   //console.log("this is the booking:", booking);
   console.log(booking._id);
   let query = Reservation.findByIdAndDelete(
