@@ -154,14 +154,14 @@ deleteReservation = (booking, callback) => {
   //console.log("this is the booking:", booking);
   console.log(booking._id);
   let query = Reservation.findByIdAndDelete(
-    booking._id,
-    function(err, result) {
-      if (err) {
-        return err;
-      } else {
-        return result;
-      }
-    }
+    booking._id
+    // function(err, result) {
+    //   if (err) {
+    //     return err;
+    //   } else {
+    //     return result;
+    //   }
+    // }
   );
   return query.exec();
 };
