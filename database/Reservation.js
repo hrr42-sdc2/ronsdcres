@@ -173,3 +173,4 @@ module.exports.read = read;
 module.exports.getByDate = getByDate;
 module.exports.make = make;
 module.exports.updateReservation = updateReservation;
+module.exports.deleteReservation = deleteReservation;
