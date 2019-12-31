@@ -133,9 +133,10 @@ updateReservation = (booking, callback) => {
   //console.log("this is the booking:", booking);
   console.log(booking._id);
   let query = Reservation.findByIdAndUpdate(
-    booking._id,
-    { guests: booking.guests },
-    function(err, result) {
+    booking._id, {
+      guests: booking.guests
+    },
+    function (err, result) {
       if (err) {
         return err;
       } else {
