@@ -29,15 +29,15 @@ var read = () => {
 //!! RON MADE THIS CHANGE -
 //for loop that generates the RESERVATION ID
 
-var createReservationId = () => {
-  const reservationId = [];
-  for (let i = 1; i <= 10000000; i++) {
-    reservationId.push({
-      reservationId: i
-    });
-  }
-  return reservationId;
-};
+// var createReservationId = () => {
+//   const reservationId = [];
+//   for (let i = 1; i <= 10000000; i++) {
+//     reservationId.push({
+//       reservationId: i
+//     });
+//   }
+//   return reservationId;
+// };
 
 // createReservationId();
 //!! END OF THE CHANGE ADDED TO GENERATE RESERVATION ID
@@ -155,7 +155,9 @@ deleteReservation = (booking) => {
   //console.log("this is the booking:", booking);
   console.log(booking._id);
   let query = Reservation.findByIdAndDelete(
-    booking._id
+    booking._id, {
+      guests: booking.guests
+    },
     // function(err, result) {
     //   if (err) {
     //     return err;

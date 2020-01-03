@@ -88,7 +88,7 @@ app.delete('/reservation', function (req, res) {
   console.log(booking);
   //const time = req.params.restaurant_time;
   // res.send(booking)
-  Reservation.updateReservation(booking)
+  Reservation.deleteReservation(booking)
     .then((notification) => {
       // console.log(notification);
       // console.log(booking);
