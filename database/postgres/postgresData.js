@@ -28,9 +28,6 @@ const dataGenerator = (path) => {
   const ws = fs.createWriteStream(path);
   ws.write(`restaurant_id,customer_name,reservation_time,guests,created_at,updated_at\n`);
 
-  const ws3 = fs.createWriteStream(path);
-  ws.write(`restaurant_id,latitude,longitude\n`);
-
   const RESERVATIONS_TO_CREATE = 10000000;
 
   //  RESERVATIONS
@@ -56,7 +53,7 @@ const dataGenerator = (path) => {
 
   //need a line here like: ws.write(entry), but I'm stuck on creating a condition...
 
-}
+};
 
 //  clear any existing reservations
 Reservation.deleteMany({}, () => {});
@@ -65,8 +62,9 @@ Reservation.create(res, () => {});
 
 // MAPS
 const mapGenerator = (path) => {
+
   const ws2 = fs.createWriteStream(path);
-  ws.write(`restaurant_id,seats,tables,reservations_today,created_at,updated_at\n`);
+  ws.write(`restaurant_id,latitude,longitude\n`);
 
   var maps = '';
 
@@ -88,9 +86,12 @@ const mapGenerator = (path) => {
 //  RESTAURANT - geolocators can go in here if want to refactor
 const restaurantGenerator = (path) => {
 
+  const ws3 = fs.createWriteStream(path);
+  ws.write(`restaurant_id,seats,tables,reservations_today,created_at,updated_at\n`);
+
   var restaurant = [];
 
-  for (var i = 0; i < 100; i++) {
+  for (var i = 0; i < 1000000; i++) {
     restaurant[i] = {};
     restaurant[i].restaurant_id = i + 1;
     restaurant[i].seats = 70;
