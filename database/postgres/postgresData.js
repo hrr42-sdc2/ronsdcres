@@ -1,16 +1,3 @@
-const faker = require('faker');
-const fs = require('fs');
-const csvWriter = require('csv-write-stream');
-const numberReservations = 20000000;
-const numberRestaurants = 10000000;
-const numberMaps = 10000000;
-const writer = csvWriter({
-  separator: ';',
-  newline: '\n',
-  headers: undefined,
-  sendHeaders: true,
-});
-
 /*
 10,000,000 restaurants across the US by latitude and longitude
 --> with 40 tables and 70 seats
@@ -36,16 +23,29 @@ sample object for restaurant schema: {
 4. figure out how to do created_at and updated_at
 */
 
-function rando(start, stop) {
+const faker = require('faker');
+const fs = require('fs');
+const csvWriter = require('csv-write-stream');
+const numberReservations = 20000000;
+const numberRestaurants = 10000000;
+const numberMaps = 10000000;
+const writer = csvWriter({
+  separator: ';',
+  newline: '\n',
+  headers: undefined,
+  sendHeaders: true,
+});
+
+let rando = function (start, stop) {
   return start + Math.round(Math.random() * (stop - start));
-}
+};
 
 const minutes = rando(1, 4320);
 const reserveTime = new Date();
 reserveTime.setMinutes(reserveTime.getMinutes() + minutes);
 
 //reservations
-function reservationMaker() {
+let reservationMaker = function () {
   const reservationObj = {};
   reservationObj.restaurant_id = rando(1, numberRestaurants);
   reservationObj.customer_name = faker.name.findName();
@@ -54,12 +54,12 @@ function reservationMaker() {
   // reservation.created_at = /* fix this */;
   // reservation.updated_at = /* fix this */;
   return reservationObj;
-}
+};
 
 let i = numberReservations;
 writer.pipe(fs.createWriteStream(`${__dirname}/postgresData1.csv`));
 
-function reservationGenerator() {
+let reservationGenerator = function () {
   let ok = true;
   do {
     i -= 1;
@@ -78,8 +78,7 @@ function reservationGenerator() {
 reservationGenerator();
 
 // MAPS
-
-function mapMaker() {
+let mapMaker = function () {
   const mapObj = {};
   mapObj.restaurant_id = rando(1, numberRestaurants);
   mapObj.latitude = rando(47606, 32715) * .001; // North South Seat (47.606) - SD (32.715);
@@ -87,31 +86,29 @@ function mapMaker() {
   return mapObj;
 };
 
-let i = numberMaps;
+let j = numberMaps;
 writer.pipe(fs.createWriteStream(`${__dirname}/postgresData2.csv`));
 
-function mapGenerator() {
+let mapGenerator = function () {
   let ok = true;
   do {
-    i -= 1;
-    if (i === 0) {
+    j -= 1;
+    if (j === 0) {
       writer.write(mapMaker());
       console.log('maps suc-seeded!!');
       writer.end();
     } else {
       ok = writer.write(mapMaker());
     }
-  } while (i > 0 && ok);
-  if (i > 0) {
+  } while (j > 0 && ok);
+  if (j > 0) {
     writer.once('drain', mapGenerator);
   }
 };
-
 mapGenerator();
 
 //  RESTAURANT - geolocators can go in here if want to refactor
-
-function restaurantMaker() {
+let restaurantMaker = function () {
   const restaurant = {};
   restaurant.restaurant_id = rando(1, numberRestaurants);
   restaurant.seats = 70;
@@ -120,24 +117,24 @@ function restaurantMaker() {
   // restaurant.created_at = /* fix this */;
   // restaurant.updated_at = /* fix this */;
   return restaurant;
-}
+};
 
-let i = numberRestaurants;
+let k = numberRestaurants;
 writer.pipe(fs.createWriteStream(`${__dirname}/postgresData3.csv`));
 
-function restaurantGenerator() {
+let restaurantGenerator = function () {
   let ok = true;
   do {
-    i -= 1;
-    if (i === 0) {
+    k -= 1;
+    if (k === 0) {
       writer.write(restaurantMaker());
       console.log('Restaurants suc-seeded!!');
       writer.end();
     } else {
       ok = writer.write(restaurantMaker());
     }
-  } while (i > 0 && ok);
-  if (i > 0) {
+  } while (k > 0 && ok);
+  if (k > 0) {
     writer.once('drain', restaurantGenerator);
   }
 };
