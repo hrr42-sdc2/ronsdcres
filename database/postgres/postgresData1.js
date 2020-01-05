@@ -27,8 +27,11 @@ const faker = require('faker');
 const fs = require('fs');
 const csvWriter = require('csv-write-stream');
 const numberReservations = 20000000;
+// const numberReservations = 50;
 const numberRestaurants = 10000000;
+// const numberRestaurants = 25;
 const numberMaps = 10000000;
+// const numberMaps = 25;
 const writer = csvWriter({
   separator: ';',
   newline: '\n',
@@ -49,10 +52,10 @@ let reservationMaker = function () {
   const reservationObj = {};
   reservationObj.restaurant_id = rando(1, numberRestaurants);
   reservationObj.customer_name = faker.name.findName();
-  reservationObj.reservation_time = reserveTime;
+  reservationObj.reservation_time = reserveTime.toISOString();
   reservationObj.guests = rando(1, 5);
-  // reservation.created_at = /* fix this */;
-  // reservation.updated_at = /* fix this */;
+  // reservationObj.created_at = reserveTime.toISOString();
+  // reservationObj.updated_at = reserveTime.toISOString();
   return reservationObj;
 };
 
@@ -77,68 +80,68 @@ let reservationGenerator = function () {
 };
 reservationGenerator();
 
-// MAPS
-let mapMaker = function () {
-  const mapObj = {};
-  mapObj.restaurant_id = rando(1, numberRestaurants);
-  mapObj.latitude = rando(47606, 32715) * .001; // North South Seat (47.606) - SD (32.715);
-  mapObj.longitude = rando(74005, 122419) * -.001; //  East West  NYC (-74.005) - SF (-122.419);
-  return mapObj;
-};
+// // MAPS
+// let mapMaker = function () {
+//   const mapObj = {};
+//   mapObj.restaurant_id = rando(1, numberRestaurants);
+//   mapObj.latitude = rando(47606, 32715) * .001; // North South Seat (47.606) - SD (32.715);
+//   mapObj.longitude = rando(74005, 122419) * -.001; //  East West  NYC (-74.005) - SF (-122.419);
+//   return mapObj;
+// };
 
-let j = numberMaps;
-writer.pipe(fs.createWriteStream(`${__dirname}/postgresData2.csv`));
+// let j = numberMaps;
+// writer.pipe(fs.createWriteStream(`${__dirname}/postgresData2.csv`));
 
-let mapGenerator = function () {
-  let ok = true;
-  do {
-    j -= 1;
-    if (j === 0) {
-      writer.write(mapMaker());
-      console.log('maps suc-seeded!!');
-      writer.end();
-    } else {
-      ok = writer.write(mapMaker());
-    }
-  } while (j > 0 && ok);
-  if (j > 0) {
-    writer.once('drain', mapGenerator);
-  }
-};
-mapGenerator();
+// let mapGenerator = function () {
+//   let ok = true;
+//   do {
+//     j -= 1;
+//     if (j === 0) {
+//       writer.write(mapMaker());
+//       console.log('maps suc-seeded!!');
+//       writer.end();
+//     } else {
+//       ok = writer.write(mapMaker());
+//     }
+//   } while (j > 0 && ok);
+//   if (j > 0) {
+//     writer.once('drain', mapGenerator);
+//   }
+// };
+// mapGenerator();
 
-//  RESTAURANT - geolocators can go in here if want to refactor
-let restaurantMaker = function () {
-  const restaurant = {};
-  restaurant.restaurant_id = rando(1, numberRestaurants);
-  restaurant.seats = 70;
-  restaurant.tables = 40;
-  restaurant.reservation_time = reserveTime;
-  // restaurant.created_at = /* fix this */;
-  // restaurant.updated_at = /* fix this */;
-  return restaurant;
-};
+// //  RESTAURANT - geolocators can go in here if want to refactor
+// let restaurantMaker = function () {
+//   const restaurant = {};
+//   restaurant.restaurant_id = rando(1, numberRestaurants);
+//   restaurant.seats = 70;
+//   restaurant.tables = 40;
+//   restaurant.reservation_time = reserveTime;
+//   // restaurant.created_at = /* fix this */;
+//   // restaurant.updated_at = /* fix this */;
+//   return restaurant;
+// };
 
-let k = numberRestaurants;
-writer.pipe(fs.createWriteStream(`${__dirname}/postgresData3.csv`));
+// let k = numberRestaurants;
+// writer.pipe(fs.createWriteStream(`${__dirname}/postgresData3.csv`));
 
-let restaurantGenerator = function () {
-  let ok = true;
-  do {
-    k -= 1;
-    if (k === 0) {
-      writer.write(restaurantMaker());
-      console.log('Restaurants suc-seeded!!');
-      writer.end();
-    } else {
-      ok = writer.write(restaurantMaker());
-    }
-  } while (k > 0 && ok);
-  if (k > 0) {
-    writer.once('drain', restaurantGenerator);
-  }
-};
-restaurantGenerator();
+// let restaurantGenerator = function () {
+//   let ok = true;
+//   do {
+//     k -= 1;
+//     if (k === 0) {
+//       writer.write(restaurantMaker());
+//       console.log('Restaurants suc-seeded!!');
+//       writer.end();
+//     } else {
+//       ok = writer.write(restaurantMaker());
+//     }
+//   } while (k > 0 && ok);
+//   if (k > 0) {
+//     writer.once('drain', restaurantGenerator);
+//   }
+// };
+// restaurantGenerator();
 
 
 
