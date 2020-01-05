@@ -5,9 +5,9 @@ let restaurantSchema = mongoose.Schema({
   restaurant_id: Number,
   seats: Number,
   tables: Number,
-  reservations_today: Number,
-  created_at: { type: Date, required: true, default: Date.now },
-  updated_at: { type: Date, required: true, default: Date.now }
+  // reservations_today: Number,
+  // created_at: { type: Date, required: true, default: Date.now },
+  // updated_at: { type: Date, required: true, default: Date.now }
 });
 
 let Restaurant = mongoose.model('Restaurant', restaurantSchema);
