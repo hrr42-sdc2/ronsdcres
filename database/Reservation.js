@@ -1,59 +1,68 @@
-const mongoose = require('./connect.js');
-mongoose.Promise = global.Promise;
+const client = require('./connect.js');
+//mongoose.Promise = global.Promise;
 
-let reservationSchema = mongoose.Schema({
-  //reservation_id: Number,
-  restaurant_id: Number,
-  customer_name: String,
-  reservation_time: Date,
-  guests: Number,
-  created_at: {
-    type: Date,
-    required: true,
-    default: Date.now
-  },
-  updated_at: {
-    type: Date,
-    required: true,
-    default: Date.now
-  }
-});
-
-let Reservation = mongoose.model('Reservation', reservationSchema);
-
-var read = () => {
-  let query = Reservation.find({});
-  return query.exec();
-};
-
-//!! RON MADE THIS CHANGE -
-//for loop that generates the RESERVATION ID
-
-// var createReservationId = () => {
-//   const reservationId = [];
-//   for (let i = 1; i <= 10000000; i++) {
-//     reservationId.push({
-//       reservationId: i
-//     });
+// let reservationSchema = mongoose.Schema({
+//   //reservation_id: Number,
+//   restaurant_id: Number,
+//   customer_name: String,
+//   reservation_time: Date,
+//   guests: Number,
+//   created_at: {
+//     type: Date,
+//     required: true,
+//     default: Date.now
+//   },
+//   updated_at: {
+//     type: Date,
+//     required: true,
+//     default: Date.now
 //   }
-//   return reservationId;
+// });
+
+//let Reservation = mongoose.model('Reservation', reservationSchema); //not sure about this line
+
+//!this seems to not be used
+// var read = () => {
+//   let query = Reservation.find({});
+//   return query.exec();
 // };
 
-// createReservationId();
-//!! END OF THE CHANGE ADDED TO GENERATE RESERVATION ID
+//! change this
+//mongo code
+// var getByDate = (restId, date) => {
+//   //  refactor when have time
+//   return new Promise((resolve, reject) => {
+//     //  create search-between dates for the date sought
+//     var workDate = new Date(date);
+//     var fromDate = new Date(workDate.getFullYear(), workDate.getMonth(), workDate.getDate());
+//     var thruDate = new Date(fromDate);
+//     thruDate.setDate(thruDate.getDate() + 1);
+//     Reservation.find({
+//         restaurant_id: restId
+//       })
+//       .where('reservation_time').gte(fromDate).lt(thruDate)
+//       .exec((err, reservations) => {
+//         resolve(reservations);
+//       });
+//   });
+// };
 
-var getByDate = (restId, date) => {
-  //  refactor when have time
+//! changed getByDate to this:
+var getByDate = function (restId, date, callback) {
+  //  refactor when have time (Jeff's note)
   return new Promise((resolve, reject) => {
     //  create search-between dates for the date sought
     var workDate = new Date(date);
     var fromDate = new Date(workDate.getFullYear(), workDate.getMonth(), workDate.getDate());
     var thruDate = new Date(fromDate);
     thruDate.setDate(thruDate.getDate() + 1);
-    Reservation.find({
-        restaurant_id: restId
-      })
-      .where('reservation_time').gte(fromDate).lt(thruDate)
+    client.query('SELECT * FROM reservationSchema WHERE restaurant_id = restId;', (error, results) => { //! NEED HELP ON THIS LINE
+      if (error) {
+        throw error;
+      }
+      callback(results.rows);
+    })
+      .where('reservation_time').gte(fromDate).lt(thruDate) //! not sure about this part
       .exec((err, reservations) => {
         resolve(reservations);
       });

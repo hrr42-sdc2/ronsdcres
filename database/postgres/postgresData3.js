@@ -1,11 +1,11 @@
 const faker = require('faker');
 const fs = require('fs');
 const csvWriter = require('csv-write-stream');
-const numberReservations = 20000000;
+// const numberReservations = 20000000;
 // const numberReservations = 50;
-const numberRestaurants = 10000000;
+const numberRestaurants = 10000001;
 // const numberRestaurants = 25;
-const numberMaps = 10000000;
+// const numberMaps = 10000000;
 // const numberMaps = 25;
 const writer = csvWriter({
   separator: ';',
@@ -28,9 +28,6 @@ let restaurantMaker = function () {
   restaurant.restaurant_id = rando(1, numberRestaurants);
   restaurant.seats = 70;
   restaurant.num_table = 40;
-  // restaurant.reservation_time = reserveTime.toISOString();
-  // restaurant.created_at = reserveTime.toISOString();
-  // restaurant.updated_at = reserveTime.toISOString();
   return restaurant;
 };
 
@@ -42,11 +39,15 @@ let restaurantGenerator = function () {
   do {
     k -= 1;
     if (k === 0) {
-      writer.write(restaurantMaker());
+      //writer.write(restaurantMaker());
       console.log('Restaurants suc-seeded!!');
       writer.end();
     } else {
-      ok = writer.write(restaurantMaker());
+      ok = writer.write({
+        restaurant_id: k,
+        seats: 70,
+        num_table: 40,
+      });
     }
   } while (k > 0 && ok);
   if (k > 0) {

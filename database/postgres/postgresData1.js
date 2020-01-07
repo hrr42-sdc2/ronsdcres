@@ -1,11 +1,11 @@
 const faker = require('faker');
 const fs = require('fs');
 const csvWriter = require('csv-write-stream');
-const numberReservations = 20000000;
-// const numberReservations = 50;
-const numberRestaurants = 10000000;
+const numberReservations = 20000001;
+// const numberReservations = 51;
+// const numberRestaurants = 10000000;
 // const numberRestaurants = 25;
-const numberMaps = 10000000;
+// const numberMaps = 10000000;
 // const numberMaps = 25;
 const writer = csvWriter({
   separator: ';',
@@ -23,16 +23,16 @@ const reserveTime = new Date();
 reserveTime.setMinutes(reserveTime.getMinutes() + minutes);
 
 //reservations
-let reservationMaker = function () {
-  const reservationObj = {};
-  reservationObj.restaurant_id = rando(1, numberRestaurants);
-  reservationObj.customer_name = faker.name.findName();
-  reservationObj.reservation_time = reserveTime.toISOString();
-  reservationObj.guests = rando(1, 5);
-  // reservationObj.created_at = reserveTime.toISOString();
-  // reservationObj.updated_at = reserveTime.toISOString();
-  return reservationObj;
-};
+// let reservationMaker = function () {
+//   const reservationObj = {};
+//   reservationObj.restaurant_id = rando(1, numberRestaurants);
+//   reservationObj.customer_name = faker.name.findName();
+//   reservationObj.reservation_time = reserveTime.toISOString();
+//   reservationObj.guests = rando(1, 5);
+//   // reservationObj.created_at = reserveTime.toISOString();
+//   // reservationObj.updated_at = reserveTime.toISOString();
+//   return reservationObj;
+// };
 
 let i = numberReservations;
 writer.pipe(fs.createWriteStream(`${__dirname}/postgresData1.csv`));
@@ -42,20 +42,30 @@ let reservationGenerator = function () {
   do {
     i -= 1;
     if (i === 0) {
-      writer.write(reservationMaker());
+      //writer.write(reservationMaker());
       console.log('reservations suc-seeded!!');
       writer.end();
     } else {
-      ok = writer.write(reservationMaker());
+      //ok = writer.write(reservationMaker());
+      ok = writer.write({
+        restaurant_id: i,
+        customer_name: faker.name.findName(),
+        reservation_time: reserveTime.toISOString(),
+        guests: rando(1, 5),
+      });
     }
   } while (i > 0 && ok);
   if (i > 0) {
     writer.once('drain', reservationGenerator);
+    console.log('Overflow! Drain!');
   }
 };
 reservationGenerator();
 
 /*
+new relic license
+- 82700381ea204286aba66945eac00822de77NRAL
+
 10,000,000 restaurants across the US by latitude and longitude
 --> with 40 tables and 70 seats
 --> with 1-2 reservations each

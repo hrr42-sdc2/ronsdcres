@@ -1,12 +1,18 @@
 //  API server
+require('newrelic');
+
 const express = require('express');
+let app = express();
 const bodyParser = require('body-parser');
-const mongoose = require('../database/connect.js');
+
+const path = require('path');
+const cors = require('cors');
+
+// const mongoose = require('../database/connect.js');
+
 const Reservation = require('../database/Reservation.js');
 const Mapper = require('../database/Mapper.js');
 const Restaurant = require('../database/Restaurant.js');
-
-let app = express();
 
 app.use(express.static(__dirname + '/../public'));
 
@@ -19,10 +25,11 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
 });
+app.use(cors());
 
 //  get all reservations (for testing)
 app.get('/reservation/all', function (req, res) {
-  Reservation.read()
+  queries.getRestaurantById()
     .then((reservations) => {
       res.write(JSON.stringify(reservations));
       res.end();
@@ -170,11 +177,3 @@ let port = 3002;
 app.listen(port, function () {
   console.log(`listening on port ${port}`);
 });
-
-// updateReservation = (booking) => {
-//   let query = Reservation.findByIdAndUpdate(
-//     booking._id,
-//     booking
-//   );
-//   return query.exec();
-// };
