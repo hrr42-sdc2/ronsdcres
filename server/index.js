@@ -53,7 +53,7 @@ app.post('/reservation', function (req, res) {
   Reservation.make(booking)
     .then((notification) => {
       console.log('Notification from server: ', notification);
-      res.write(notification);
+      res.send(notification);
       // res.end();
     })
     .catch((err) => {
