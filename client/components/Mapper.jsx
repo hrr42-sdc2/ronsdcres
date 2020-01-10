@@ -16,41 +16,41 @@ let params = (new URL(document.location)).searchParams;
 let restId = parseInt(params.get('restaurantid')) || 92;
 
 class Map extends Component {
-	constructor(props) {
-		super(props);
-		//  restaurant number will be passed into props from overview
-		//  along with street address
-		this.restId = restId || 92;
-		this.restAddress = '1313 Mockingbird Lane';
-		var initialCoords = {
-			latitude: 37.739,
-			longitude: -122.431
-		};
-		this.state = {
+  constructor(props) {
+    super(props);
+    //  restaurant number will be passed into props from overview
+    //  along with street address
+    this.restId = restId || 92;
+    this.restAddress = '1313 Mockingbird Lane';
+    var initialCoords = {
+      latitude: 37.739,
+      longitude: -122.431
+    };
+    this.state = {
       coords: initialCoords
-		};
-		this.getCoordinates.bind(this);
-		this.getCoordinates(this.restId);
-	}
+    };
+    this.getCoordinates.bind(this);
+    this.getCoordinates(this.restId);
+  }
 
 	getCoordinates(restId) {
 		axios.get(`http://localhost:3002/mapper/${restId}`)
-		.then(res => {
-			var coords = this.state.coords;
-			if (res.data[0] !== undefined && res.data[0] !== {}) {
-				coords.latitude = res.data[0].latitude;
-				coords.longitude = res.data[0].longitude;
-			}
-			coords.gotData = true;
-			this.setState({coords});
-		})
+			.then(res => {
+				var coords = this.state.coords;
+				if (res.data[0] !== undefined && res.data[0] !== {}) {
+					coords.latitude = res.data[0].latitude;
+					coords.longitude = res.data[0].longitude;
+				}
+				coords.gotData = true;
+				this.setState({ coords });
+			});
 	}
 
 	render() {
 		//  prevent call to gmaps before we have gotten our coordinates
 		if (!this.state.coords.gotData) {
-		 	return <div />
-	  }
+			return <div />
+		}
 
 		const mapStyle = {
 			marginTop: '20px',
@@ -67,11 +67,11 @@ class Map extends Component {
 			<div id="mapper-container">
 				<GoogleMap
 					google={this.props.google}
-					style = {mapStyle}
-					initialCenter={{ lat: this.state.coords.latitude, lng: this.state.coords.longitude}} >
-					<Marker position={{ lat: this.state.coords.latitude, lng: this.state.coords.longitude}} />
+					style={mapStyle}
+					initialCenter={{ lat: this.state.coords.latitude, lng: this.state.coords.longitude }} >
+					<Marker position={{ lat: this.state.coords.latitude, lng: this.state.coords.longitude }} />
 				</GoogleMap>
-				</div>
+			</div>
 		);
 	}
 }
@@ -80,12 +80,12 @@ const MapWrapper = GoogleApiWrapper({
 	apiKey: GOOGLEMAPS_API_KEY
 })(Map);
 
-class Mapper extends Component{
-	render(){
+class Mapper extends Component {
+	render() {
 		return (
-		<div>
-			<MapWrapper/>
-		</div>
+			<div>
+				<MapWrapper />
+			</div>
 		)
 	}
 }

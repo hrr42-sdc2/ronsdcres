@@ -38,14 +38,15 @@ var getAll = function () {
 // };
 
 //! changed getOne to this:
-let getOne = function (restaurantId, callback) {
+let getOne = function (restaurantId) {
   const Restaurant = parseInt(restaurant_id, 10);
-  client.query('SELECT * FROM restaurantSchema WHERE restaurantId = restaurant_id;', [Restaurant], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    callback(results.rows);
-  });
+  client.query('SELECT * FROM restaurantSchema WHERE restaurantId = restaurant_id;', [Restaurant])
+    .then((notification) => {
+      console.log('Notification from db Restaurant: ', notification);
+    })
+    .catch((err) => {
+      console.log('Error in database Restaurant.js: ', err);
+    })
 };
 
 //! this seems to not be used at all
@@ -59,7 +60,7 @@ var incrementReservations = (restaurantId) => {
   });
 };
 
-module.exports = Restaurant; //not sure about this line
+// module.exports = Restaurant; //not sure about this line
 module.exports.getAll = getAll;
 module.exports.getOne = getOne;
 module.exports.incrementReservations = incrementReservations;
