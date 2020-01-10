@@ -1,12 +1,18 @@
 //  API server
+require('newrelic');
+
 const express = require('express');
+let app = express();
 const bodyParser = require('body-parser');
-const mongoose = require('../database/connect.js');
+
+const path = require('path');
+const cors = require('cors');
+
+// const mongoose = require('../database/connect.js');
+
 const Reservation = require('../database/Reservation.js');
 const Mapper = require('../database/Mapper.js');
 const Restaurant = require('../database/Restaurant.js');
-
-let app = express();
 
 app.use(express.static(__dirname + '/../public'));
 
@@ -19,18 +25,19 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
 });
+app.use(cors());
 
 //  get all reservations (for testing)
 app.get('/reservation/all', function (req, res) {
-  Reservation.read()
+  queries.getRestaurantById()
     .then((reservations) => {
       res.write(JSON.stringify(reservations));
-      res.end();
+      // res.end();
     })
     .catch((err) => {
       console.log('Error: ', err);
       res.status(500).send(new Error(err));
-      res.end();
+      // res.end();
     });
 });
 
@@ -40,18 +47,21 @@ app.post('/reservation', function (req, res) {
   //  if post not allowed, return error message
   //  errors can be: username already has a reservation,
   //    reservation overlaps too many (too many tables used)
+  //console.log('Posting reservation: ', req.body);
   var booking = req.body;
-
+  //console.log('This is booking from server:', booking);
   Reservation.make(booking)
     .then((notification) => {
-      res.write(JSON.stringify(notification));
-      res.end();
+      console.log('Notification from server: ', notification);
+      res.write(notification);
+      // res.end();
     })
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      res.end();
+      // res.end();
     });
+  //res.end();
 });
 
 //!! RON'S ADDITION FOR THE PUT REQUEST TO UPDATE THE RESERVATION
@@ -62,7 +72,7 @@ app.post('/reservation', function (req, res) {
 //db.collection.replaceOne(), or db.collection.update()
 app.put('/reservation', function (req, res) {
   const booking = req.body;
-  console.log(booking);
+  //console.log(booking);
   //const time = req.params.restaurant_time;
   // res.send(booking)
   Reservation.updateReservation(booking)
@@ -70,12 +80,12 @@ app.put('/reservation', function (req, res) {
       // console.log(notification);
       // console.log(booking);
       res.write(JSON.stringify(notification));
-      res.end();
+      // res.end();
     })
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      res.end();
+      // res.end();
     });
   // res.send("Updated!");
 });
@@ -85,7 +95,7 @@ app.put('/reservation', function (req, res) {
 //!! RON'S ADDITION FOR THE DELETE REQUEST TO UPDATE THE RESERVATION
 app.delete('/reservation', function (req, res) {
   const booking = req.body;
-  console.log(booking);
+  //console.log(booking);
   //const time = req.params.restaurant_time;
   // res.send(booking)
   Reservation.deleteReservation(booking)
@@ -93,12 +103,12 @@ app.delete('/reservation', function (req, res) {
       // console.log(notification);
       // console.log(booking);
       res.write(JSON.stringify(notification));
-      res.end();
+      // res.end();
     })
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      res.end();
+      // res.end();
     });
   // res.send("Updated!");
 });
@@ -115,25 +125,26 @@ app.get('/mapper/all', function (req, res) {
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      res.end();
+      // res.end();
     });
 });
 
 //  get restaurant geolocator for call to google maps api
-//jeff sugests I work on this one.
+//jeff suggests I work on this one.
 app.get('/mapper/:restaurantId', function (req, res) {
   var restaurantId = req.params.restaurantId;
-  Mapper.getOne(restaurantId)
-    .then((map) => {
-      res.write(JSON.stringify(map));
-      res.end();
-    })
-    .catch((err) => {
+  Mapper.getOne(restaurantId, function(err, result) {
+    if (err) {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
+    } else {
+      //console.log(result);
+      res.write(JSON.stringify(result));
       res.end();
-    });
+    }
+  });
 });
+
 
 //  get all maps (for testing)
 app.get('/restaurant/all', function (req, res) {
@@ -170,11 +181,3 @@ let port = 3002;
 app.listen(port, function () {
   console.log(`listening on port ${port}`);
 });
-
-// updateReservation = (booking) => {
-//   let query = Reservation.findByIdAndUpdate(
-//     booking._id,
-//     booking
-//   );
-//   return query.exec();
-// };

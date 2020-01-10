@@ -33,3 +33,6 @@ fec.pem
 database/postgres/postgresData1.csv
 database/postgres/postgresData2.csv
 database/postgres/postgresData3.csv
+
+# .env
+.env

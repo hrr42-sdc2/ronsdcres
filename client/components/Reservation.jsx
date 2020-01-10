@@ -14,7 +14,7 @@ const StyledReservation = styled.div`
 
 const StyledDate = styled.select`
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 15px
+  font-size: 15px;
 `;
 
 const StyledFindButton = styled.button`
@@ -23,16 +23,16 @@ const StyledFindButton = styled.button`
   background-color: rgb(218, 55,67);
   color: white;
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 18px
+  font-size: 18px;
 `;
 
 const StyledSelect = styled.select`
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 15px
+  font-size: 15px;
 `;
 
 let params = (new URL(document.location)).searchParams;
-let restId = parseInt(params.get('restaurantid')) || 92;
+let restId = parseInt(params.get('restaurantid')) || 21000009;
 
 class Reservation extends React.Component {
   constructor({}) {
@@ -65,7 +65,7 @@ class Reservation extends React.Component {
     //  right now is sent from App
     this.restId = restId;
     //  name is the person doing the booking
-    this.name = 'Superman';
+    this.name = 'Carl Sagan';
 
     this.handleChangeGuests = this.handleChangeGuests.bind(this);
     this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -119,7 +119,7 @@ class Reservation extends React.Component {
     booking.time.setHours(hours);
     booking.time.setMinutes(arr[1].substring(0,2));
     booking.time.setSeconds(0);
-    console.log(booking);
+    // console.log(booking);
     //  post to reservation api
     axios.post('/reservation', booking)
     .then((response) => {

@@ -1,6 +1,6 @@
 CREATE TABLE mapSchema (
-  restaurant_id int,
-  latitude int,
-  longitude int,
+  restaurant_id integer,
+  latitude float,
+  longitude float,
   FOREIGN KEY (restaurant_id) REFERENCES restaurantSchema (restaurant_id)
 );
