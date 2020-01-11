@@ -119,7 +119,7 @@ var make = (booking) => {
           // console.log('Hello from database make function');
           addReservation(booking, (error, reservations) => {
             //console.log('Booking: ', booking);
-            console.log('Notification: ', notification);
+            // console.log('Notification: ', notification);
             // return (notification)
           });
         }
