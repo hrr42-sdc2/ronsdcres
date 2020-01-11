@@ -81,7 +81,7 @@ var make = (booking) => {
     getByDate(booking.restId, booking.time)
       .then((reservations) => {
         // process the booking
-        console.log('Reservations from make: ', reservations);
+        //console.log('Reservations from make: ', reservations);
         const AVAIL_TABLES = 15;
         var nameMatch = false;
         var overlaps = [];
@@ -126,8 +126,9 @@ var make = (booking) => {
         // console.log('Notification from database: ', notification);
         resolve(notification)
       })
-      .catch((err) => {
-        console.log('Error: ',err)
+      .catch((err, res) => {
+        console.log('Error: ',err);
+        console.log('<**********RESPONSE FROM DATABASE .CATCH RES.STATUS*************>: ', res);
         res.status(201).send(new Error(err));
       });
   });
@@ -147,10 +148,10 @@ var make = (booking) => {
 
 addReservation = (booking, callback) => {
   let queryString = 'INSERT INTO reservationSchema(restaurant_id,customer_name,guests,reservation_time) VALUES($1, $2, $3, $4);';
-  console.log(Object.values(booking));
+  //console.log(Object.values(booking));
   client.query(queryString, Object.values(booking))
    .then((notification) => {
-      console.log('Notification from database:', notification);
+      // console.log('Notification from database:', notification);
       //console.log('***Notification from database***')
       callback(null, notification);
    })
@@ -172,7 +173,7 @@ addReservation = (booking, callback) => {
 //format is: findByIdAndUpdate(id, {update}, callback)
 updateReservation = (booking, callback) => {
   //console.log("this is the booking:", booking);
-  console.log('booking ID:', booking._id);
+  //console.log('booking ID:', booking._id);
   let query = Reservation.findByIdAndUpdate(
     booking._id, {
       guests: booking.guests
@@ -194,7 +195,7 @@ updateReservation = (booking, callback) => {
 //format is: findByIdAndUpdate(id, {update}, callback)
 deleteReservation = (booking) => {
   //console.log("this is the booking:", booking);
-  console.log('booking ID (delete):', booking._id);
+  //console.log('booking ID (delete):', booking._id);
   let query = Reservation.findByIdAndDelete(
     booking._id, {
       guests: booking.guests

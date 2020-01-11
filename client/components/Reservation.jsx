@@ -32,7 +32,7 @@ const StyledSelect = styled.select`
 `;
 
 let params = (new URL(document.location)).searchParams;
-let restId = parseInt(params.get('restaurantid')) || 21000011;
+let restId = parseInt(params.get('restaurantid')) || 21000015;
 
 class Reservation extends React.Component {
   constructor({}) {
