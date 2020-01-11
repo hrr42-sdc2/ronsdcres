@@ -21,9 +21,9 @@ for (var i = 0; i < RESERVATIONS_TO_CREATE; i++) {
   var minutes = getRandomInteger(1, 4320);
   var reserveTime = new Date();
   reserveTime.setMinutes( reserveTime.getMinutes() + minutes );
-  console.log(minutes, reserveTime);
+  //console.log(minutes, reserveTime);
   res[i].reservation_time = reserveTime;
-  console.log(res[i].reservation_time);
+  //console.log(res[i].reservation_time);
   res[i].guests = Math.floor(Math.random() * 4) +1;
 }
 
