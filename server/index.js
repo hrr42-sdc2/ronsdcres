@@ -31,13 +31,11 @@ app.use(cors());
 app.get('/reservation/all', function (req, res) {
   queries.getRestaurantById()
     .then((reservations) => {
-      res.write(JSON.stringify(reservations));
-      // res.end();
+      res.send(JSON.stringify(reservations));
     })
     .catch((err) => {
       console.log('Error: ', err);
       res.status(500).send(new Error(err));
-      // res.end();
     });
 });
 
@@ -52,16 +50,13 @@ app.post('/reservation', function (req, res) {
   //console.log('This is booking from server:', booking);
   Reservation.make(booking)
     .then((notification) => {
-      console.log('Notification from server: ', notification);
+      //console.log('Notification from server: ', notification);
       res.send(notification);
-      // res.end();
     })
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      // res.end();
     });
-  //res.end();
 });
 
 //!! RON'S ADDITION FOR THE PUT REQUEST TO UPDATE THE RESERVATION
@@ -79,13 +74,11 @@ app.put('/reservation', function (req, res) {
     .then((notification) => {
       // console.log(notification);
       // console.log(booking);
-      res.write(JSON.stringify(notification));
-      // res.end();
+      res.send(JSON.stringify(notification));
     })
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      // res.end();
     });
   // res.send("Updated!");
 });
@@ -102,13 +95,11 @@ app.delete('/reservation', function (req, res) {
     .then((notification) => {
       // console.log(notification);
       // console.log(booking);
-      res.write(JSON.stringify(notification));
-      // res.end();
+      res.send(JSON.stringify(notification));
     })
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      // res.end();
     });
   // res.send("Updated!");
 });
@@ -119,13 +110,11 @@ app.delete('/reservation', function (req, res) {
 app.get('/mapper/all', function (req, res) {
   Mapper.getAll()
     .then((maps) => {
-      res.write(JSON.stringify(maps));
-      res.end();
+      res.send(JSON.stringify(maps));
     })
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      // res.end();
     });
 });
 
@@ -139,8 +128,7 @@ app.get('/mapper/:restaurantId', function (req, res) {
       res.status(500).send(new Error(err));
     } else {
       //console.log(result);
-      res.write(JSON.stringify(result));
-      res.end();
+      res.send(JSON.stringify(result));
     }
   });
 });
@@ -150,29 +138,25 @@ app.get('/mapper/:restaurantId', function (req, res) {
 app.get('/restaurant/all', function (req, res) {
   Restaurant.getAll()
     .then((restaurants) => {
-      res.write(JSON.stringify(restaurants));
-      res.end();
+      res.send(JSON.stringify(restaurants));
     })
     .catch((err) => {
       console.log('Error occurred:', err);
       res.status(500).send(new Error(err));
-      res.end();
     });
 });
 
 //  get restaurant geolocator for call to google maps api
 app.get('/restaurant/:restaurantId', function (req, res) {
   var restaurantId = req.params.restaurantId;
-  console.log(restaurantId);
+  //console.log(restaurantId);
   Restaurant.getOne(restaurantId)
     .then((restaurant) => {
-      res.write(JSON.stringify(restaurant));
-      res.end();
+      res.send(JSON.stringify(restaurant));
     })
     .catch((err) => {
       console.log('Error occurred: ', err);
       res.status(500).send(new Error(err));
-      res.end();
     });
 });
 

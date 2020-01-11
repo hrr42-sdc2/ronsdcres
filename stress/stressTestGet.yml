@@ -1,0 +1,18 @@
+config:
+  target: 'http://127.0.0.1:3002'
+  processor: './stress.js'
+  phases:
+    - duration: 60
+      arrivalRate: 5
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+
+scenarios:
+  - name: 'GET test from last million entries'
+    flow:
+    - loop:
+      - function: 'randomId'
+      - get:
+          url: '/api/reservation/{{ id }}'
+      count: 50
